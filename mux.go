@@ -5,6 +5,7 @@
 package mux
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"net/http"
@@ -173,6 +174,7 @@ func (r *Router) Match(req *http.Request, match *RouteMatch) bool {
 // When there is a match, the route variables can be retrieved calling
 // mux.Vars(request).
 func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	req = req.WithContext(context.Background())
 	if !r.skipClean {
 		path := req.URL.Path
 		if r.useEncodedPath {
